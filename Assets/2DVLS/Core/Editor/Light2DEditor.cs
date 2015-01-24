@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
-
 //[CanEditMultipleObjects()]
 [CustomEditor(typeof(Light2D))]
 public class Light2DEditor : Editor
