@@ -5,36 +5,49 @@ using System.Collections;
 [RequireComponent(typeof(Camera))]
 public class Render2DLights : MonoBehaviour 
 {
-    public Material renderMaterial = null;
+	public Material renderMaterial = null;
     public Shader blurEffectShader;
-    public LayerMask lightLayer;
-    public int iterations = 3;
+	public Shader additiveShader;
+	public LayerMask playerLightLayer;
+	public LayerMask pursuerLightLayer;
+	public LayerMask fieldOfViewLayer;
+	public int iterations = 3;
     public float blurSpread = 0.6f;
     public bool useSceneAmbientColor = false;
     public Color ambientColor = new Color(0.05f, 0.05f, 0.05f, 1);
-
-    private RenderTexture _lightTexture;
+	
+	private RenderTexture _playerLightTexture;
+	private RenderTexture _pursuerLightTexture;
+	private RenderTexture _fieldOfViewTexture;
     private GameObject _lightCam;
 
     void CleanTexture()
     {
-        if (_lightTexture)
-        {
-            RenderTexture.ReleaseTemporary(_lightTexture);
-            _lightTexture = null;
-        }
+        if (_playerLightTexture) {
+            RenderTexture.ReleaseTemporary(_playerLightTexture);
+            _playerLightTexture = null;
+		}
+		if (_pursuerLightTexture) {
+			RenderTexture.ReleaseTemporary(_pursuerLightTexture);
+			_pursuerLightTexture = null;
+		}
+		if (_fieldOfViewTexture) {
+			RenderTexture.ReleaseTemporary(_fieldOfViewTexture);
+			_fieldOfViewTexture = null;
+		}
     }
 
-    void OnPreRender()
+    protected void OnPreRender()
     {
         if (!renderMaterial || !enabled || !gameObject.activeSelf)
             return;
+		
+		CleanTexture ();
+		_playerLightTexture = RenderTexture.GetTemporary((int)camera.pixelWidth, (int)camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
+		_pursuerLightTexture = RenderTexture.GetTemporary((int)camera.pixelWidth, (int)camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
+		_fieldOfViewTexture = RenderTexture.GetTemporary((int)camera.pixelWidth, (int)camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
 
-        RenderTexture.ReleaseTemporary(_lightTexture);
-        _lightTexture = RenderTexture.GetTemporary((int)camera.pixelWidth, (int)camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
-
-        if (!_lightCam)
-        {
+        if (!_lightCam) {
             _lightCam = new GameObject("LightCam", typeof(Camera));
             _lightCam.camera.enabled = false;
             _lightCam.hideFlags = HideFlags.HideAndDontSave;
@@ -44,32 +57,55 @@ public class Render2DLights : MonoBehaviour
         cam.CopyFrom(camera);
         cam.backgroundColor = useSceneAmbientColor ? RenderSettings.ambientLight : ambientColor;
         cam.clearFlags = CameraClearFlags.SolidColor;
-        cam.cullingMask = lightLayer;
-        cam.targetTexture = _lightTexture;
+        cam.cullingMask = playerLightLayer;
+        cam.targetTexture = _playerLightTexture;
         cam.Render();
+
+		cam.cullingMask = pursuerLightLayer;
+		cam.targetTexture = _pursuerLightTexture;
+		cam.Render();
+
+		cam.cullingMask = fieldOfViewLayer;
+		cam.targetTexture = _fieldOfViewTexture;
+		cam.Render();
     }
     
     void OnRenderImage(RenderTexture source, RenderTexture destination)
-    {
+	{
+		if (!renderMaterial)
+		{
+			Debug.LogError("Render Material in Render2DLights must have a material assigned to it!");
+			return;
+		}
+		
+		if (!additiveShader)
+		{
+			Debug.LogError("additiveShaer in Render2DLights must have a shader assigned to it!");
+			return;
+		}
 
-        if (!renderMaterial)
-        {
-            Debug.LogError("Render Material in Render2DLights must have a material assigned to it!");
-            return;
-        }
-        
+		Material additiveMaterial = new Material (additiveShader);
+
+		RenderTexture temp = RenderTexture.GetTemporary((int)camera.pixelWidth, (int)camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
+		Graphics.Blit (source, temp);
+
 
         if (blurEffectShader)
-        {
-            BlitBlurEffect(_lightTexture, source, renderMaterial);
+		{
+			BlitBlurEffect(_playerLightTexture, source, renderMaterial);
+			BlitBlurEffect(_pursuerLightTexture, temp, renderMaterial);
         }
         else
-        {
-            Graphics.Blit(_lightTexture, source, renderMaterial);
-        }
-
-        Graphics.Blit(source, destination);
+		{
+			Graphics.Blit(_playerLightTexture, source, renderMaterial);
+			Graphics.Blit(_pursuerLightTexture, temp, renderMaterial);
+		}
+		Graphics.Blit (source, temp, additiveMaterial);
+		Graphics.Blit(temp, destination);
         CleanTexture();
+
+		RenderTexture.ReleaseTemporary (temp);
+		DestroyImmediate (additiveMaterial);
     }
 
     void OnDisable()
