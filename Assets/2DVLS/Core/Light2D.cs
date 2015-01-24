@@ -304,7 +304,6 @@ public class Light2D : MonoBehaviour
     {
         totalLightsRendered = 0;
         totalLightsUpdated = 0;
-		ToggleLight();
     }
 
     void LateUpdate()
@@ -1204,9 +1203,7 @@ public class Light2D : MonoBehaviour
     /// <returns>'TRUE' if light is on.</returns>
     public bool ToggleLight(bool _updateMesh = false)
     {
-		if (Input.GetKeyUp (KeyCode.Space)) {
-			lightEnabled = !lightEnabled;
-		}
+		lightEnabled = !lightEnabled;
 
         if (_updateMesh)
         {
