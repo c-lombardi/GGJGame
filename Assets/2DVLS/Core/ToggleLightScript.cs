@@ -58,7 +58,7 @@ public class ToggleLightScript : MonoBehaviour {
 	
 	bool validFileType(string filename) {
 		foreach(string ext in fileTypes) {
-			if(filename.IndexOf(ext) > -1) return true;
+			if(filename.IndexOf(ext) > -1 && filename.IndexOf("meta") == -1) return true;
 		}
 		return false;
 	}
