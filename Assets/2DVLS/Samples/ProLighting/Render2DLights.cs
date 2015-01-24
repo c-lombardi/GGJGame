@@ -6,8 +6,9 @@ using System.Collections;
 public class Render2DLights : MonoBehaviour 
 {
 	public Material renderMaterial = null;
-    public Shader blurEffectShader;
+	public Shader blurEffectShader;
 	public Shader additiveShader;
+	public Shader multiplicativeShader;
 	public LayerMask playerLightLayer;
 	public LayerMask pursuerLightLayer;
 	public LayerMask fieldOfViewLayer;
@@ -80,11 +81,18 @@ public class Render2DLights : MonoBehaviour
 		
 		if (!additiveShader)
 		{
-			Debug.LogError("additiveShaer in Render2DLights must have a shader assigned to it!");
+			Debug.LogError("additiveShader in Render2DLights must have a shader assigned to it!");
+			return;
+		}
+		
+		if (!additiveShader)
+		{
+			Debug.LogError("multiplicativeShader in Render2DLights must have a shader assigned to it!");
 			return;
 		}
 
 		Material additiveMaterial = new Material (additiveShader);
+		Material multiplicativeMaterial = new Material (multiplicativeShader);
 
 		RenderTexture temp = RenderTexture.GetTemporary((int)camera.pixelWidth, (int)camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
 		Graphics.Blit (source, temp);
@@ -94,11 +102,13 @@ public class Render2DLights : MonoBehaviour
 		{
 			BlitBlurEffect(_playerLightTexture, source, renderMaterial);
 			BlitBlurEffect(_pursuerLightTexture, temp, renderMaterial);
-        }
+			BlitBlurEffect(_fieldOfViewTexture, temp, multiplicativeMaterial);
+		}
         else
 		{
 			Graphics.Blit(_playerLightTexture, source, renderMaterial);
 			Graphics.Blit(_pursuerLightTexture, temp, renderMaterial);
+			Graphics.Blit(_fieldOfViewTexture, temp, multiplicativeMaterial);
 		}
 		Graphics.Blit (source, temp, additiveMaterial);
 		Graphics.Blit(temp, destination);
@@ -106,6 +116,7 @@ public class Render2DLights : MonoBehaviour
 
 		RenderTexture.ReleaseTemporary (temp);
 		DestroyImmediate (additiveMaterial);
+		DestroyImmediate (multiplicativeMaterial);
     }
 
     void OnDisable()
