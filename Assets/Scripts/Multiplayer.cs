@@ -26,7 +26,7 @@ public class Multiplayer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		MasterServer.ipAddress = "172.24.8.159";
+		MasterServer.ipAddress = "192.168.43.213";
 	}
 	
 	// Update is called once per frame
