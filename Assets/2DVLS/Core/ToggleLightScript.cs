@@ -7,7 +7,7 @@ using System.IO;
 [RequireComponent(typeof(AudioSource))]
 public class ToggleLightScript : MonoBehaviour {
 	public Light2D l2d;
-	string absolutePath = "./Assets/2DVLS/Samples/Sounds/Flashlight";
+	string absolutePath = "./Assets/Sounds/Flashlight";
 	List<AudioClip> clips = new List<AudioClip>();
 	public AudioSource flashlightOn;
 	public AudioSource flashlightOff;
