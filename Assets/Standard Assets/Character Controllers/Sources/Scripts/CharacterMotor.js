@@ -175,6 +175,7 @@ private var tr : Transform;
 
 private var controller : CharacterController;
 
+
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
@@ -310,6 +311,7 @@ private function UpdateFunction () {
 }
 
 function FixedUpdate () {
+		
 	if (movingPlatform.enabled) {
 		if (movingPlatform.activePlatform != null) {
 			if (!movingPlatform.newPlatform) {

@@ -25,15 +25,17 @@ public class ToggleLightScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyUp (KeyCode.Space)) {
+		if (Input.GetKeyUp (KeyCode.Space) || Input.GetKeyDown (KeyCode.Joystick1Button9)) {
 			switch (l2d.LightEnabled)
 			{
 			case true:
 				flashlightOn.clip = clips[0];
+				flashlightOn.volume = .15f;
 				flashlightOn.Play();
 				break;
 			default:
 				flashlightOff.clip = clips[1];
+				flashlightOff.volume = .15f; 
 				flashlightOff.Play();
 				break;
 
