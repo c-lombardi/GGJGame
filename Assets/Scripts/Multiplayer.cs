@@ -105,7 +105,9 @@ public class Multiplayer : MonoBehaviour {
 	void AddNetworkPlayer() {
 		Transform player = AddLocalPlayer();
 		Transform pursuer = (Transform)Network.Instantiate (pursuerPrefab, playerInitialPosition, playerInitialQuat, 0);
-		pursuer.GetComponent<NetworkView>().observed = player;
+		pursuer.GetComponent<EnemySerializer>().player = player;
+		pursuer.GetComponent<NetworkView> ().enabled = false;
+		pursuer.GetComponent<NetworkView> ().enabled = true;
 		for (int i = 0; i < pursuer.childCount; i++) {
 			Object.Destroy(pursuer.GetChild(i).gameObject);
 		}
