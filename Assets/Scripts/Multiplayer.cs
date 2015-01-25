@@ -37,20 +37,20 @@ public class Multiplayer : MonoBehaviour {
 	void OnGUI() {
 		int buttonNum = 0;
 		if (!isSinglePlayer && !Network.isClient && !Network.isServer) {
-			if (hostList == null || hostList.Length == 0) {
+			if (hostList == null) {
 				if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Start Single-player")) {
 					StartSinglePlayer();
 				}
-				if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Host Multiplayer")) {
-					StartServer();
-				}
-				if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Join Multiplayer")) {
+				if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Multiplayer")) {
 					FindServer();
 				}
 			} else {
+				if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Start New Room")) {
+					StartServer();
+				}
 				for (int i = 0; i < hostList.Length; i++)
 				{
-					if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), hostList[i].gameName)) {
+					if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Join " + hostList[i].gameName)) {
 						JoinServer(hostList[i]);
 					}
 				}
