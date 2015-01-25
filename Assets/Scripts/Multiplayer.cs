@@ -7,9 +7,6 @@ public class Multiplayer : MonoBehaviour {
 
 	private static string typeName = "PanicAtTheWarehouse";
 	private static string roomName = "" + System.Environment.MachineName;
-	
-	private Vector3 playerInitialPosition = Vector3.zero;
-	private Quaternion playerInitialQuat = Quaternion.identity;
 
 	private int buttonHeight = 30;
 	private int buttonWidth = 250;
@@ -102,9 +99,20 @@ public class Multiplayer : MonoBehaviour {
 		Debug.Log("Could not connect to master server: " + info);
 	}
 
+	private Vector3 playerInitialPosition() {
+		Vector3 v = transform.position;
+		v.y = 0;
+		return v;
+	}
+
+	private Vector3 pursuerInitalPosition() {
+		// They probably shouldn't show up in the same place
+		return playerInitialPosition ();
+	}
+
 	void AddNetworkPlayer() {
 		Transform player = AddLocalPlayer();
-		Transform pursuer = (Transform)Network.Instantiate (pursuerPrefab, playerInitialPosition, playerInitialQuat, 0);
+		Transform pursuer = (Transform)Network.Instantiate (pursuerPrefab, playerInitialPosition(), Quaternion.identity, 0);
 		pursuer.GetComponent<EnemySerializer>().player = player;
 		pursuer.GetComponent<NetworkView> ().enabled = false;
 		pursuer.GetComponent<NetworkView> ().enabled = true;
@@ -113,12 +121,12 @@ public class Multiplayer : MonoBehaviour {
 		}
 	}
 	Transform AddLocalPlayer() {
-		Transform player = (Transform) Object.Instantiate (playerPrefab, playerInitialPosition, playerInitialQuat);
+		Transform player = (Transform) Object.Instantiate (playerPrefab, playerInitialPosition(), Quaternion.identity);
 		GetComponent<CameraMovement>().target = player;
 		return player;
 	}
 	Transform AddLocalPursuer(Transform player) {
-		Transform pursuer = (Transform)Object.Instantiate (pursuerPrefab, playerInitialPosition, playerInitialQuat);
+		Transform pursuer = (Transform)Object.Instantiate (pursuerPrefab, playerInitialPosition(), Quaternion.identity);
 		pursuer.GetComponent<NavMeshAgent>().enabled = true;
 		pursuer.GetComponent<NavToPlayer>().enabled = true;
 		pursuer.GetComponent<NavToPlayer>().target = player;
