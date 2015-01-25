@@ -3,13 +3,12 @@ using System.Collections;
 
 public class NavToPlayer : MonoBehaviour {
 	public Transform target;
-	public Transform source;
 	public Light2D targetLight;
 	public bool inPursuit = false;
 	NavMeshAgent nma;
 	void Start()
 	{
-		nma = source.GetComponent<NavMeshAgent> ();
+		nma = GetComponent<NavMeshAgent>();
 		Light2D.RegisterEventListener (LightEventListenerType.OnEnter, OnLightEnter);
 		Light2D.RegisterEventListener (LightEventListenerType.OnExit, OnLightExit);
 		Light2D.RegisterEventListener (LightEventListenerType.OnStay, OnLightStay);
@@ -28,7 +27,7 @@ public class NavToPlayer : MonoBehaviour {
 		if ((_gameObject.name == target.name))
 		{
 			inPursuit = true;
-			source.LookAt(target.position);
+			transform.LookAt(target.position);
 			nma.SetDestination (target.position);
 		}
 	}
@@ -61,16 +60,14 @@ public class NavToPlayer : MonoBehaviour {
 	{
 		switch (flag) {
 		case 0:
-			yield return new WaitForSeconds(5.0f);
-			yield return new WaitForSeconds(5.0f);
+			yield return new WaitForSeconds(10.0f);
 			if (inPursuit)
 			{
 				inPursuit = false;
 			}
 			break;
 		case 1:
-			yield return new WaitForSeconds(5.0f);
-			yield return new WaitForSeconds(5.0f);
+			yield return new WaitForSeconds(10.0f);
 			nma.SetDestination (Random.insideUnitSphere * Random.Range(10,100));
 			break;
 		default:
