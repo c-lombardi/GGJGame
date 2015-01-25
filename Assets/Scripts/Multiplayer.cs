@@ -97,6 +97,7 @@ public class Multiplayer : MonoBehaviour {
 	void StartSinglePlayer() {
 		isSinglePlayer = true;
 		AddLocalPlayer ();
+		AddLocalPursuer ();
 	}
 	void OnFailedToConnectToMasterServer(NetworkConnectionError info) {
 		Debug.Log("Could not connect to master server: " + info);
@@ -105,9 +106,17 @@ public class Multiplayer : MonoBehaviour {
 	void AddNetworkPlayer() {
 		Transform player = AddLocalPlayer();
 		Transform pursuer = (Transform)Network.Instantiate (pursuerPrefab, playerInitialPosition, playerInitialQuat, 0);
-		pursuer.parent = player;
+		pursuer.GetComponent<NetworkView>().observed = player;
+		for (int i = 0; i < pursuer.childCount; i++) {
+			Object.Destroy(pursuer.GetChild(i).gameObject);
+		}
 	}
 	Transform AddLocalPlayer() {
 		return (Transform) Object.Instantiate (playerPrefab, playerInitialPosition, playerInitialQuat);
+	}
+	void AddLocalPursuer() {
+		Transform pursuer = (Transform)Object.Instantiate (pursuerPrefab, playerInitialPosition, playerInitialQuat);
+		pursuer.GetComponent<NavMeshAgent>().enabled = true;
+		pursuer.GetComponent<NavToPlayer>().enabled = true;
 	}
 }
