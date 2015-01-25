@@ -5,6 +5,7 @@ public class NavToPlayer : MonoBehaviour {
 	public Transform target;
 	public Light2D targetLight;
 	public bool inPursuit = false;
+	CharacterComponentProvider ccp;
 	NavMeshAgent nma;
 	void Start()
 	{
@@ -51,6 +52,18 @@ public class NavToPlayer : MonoBehaviour {
 		Debug.Log (inPursuit.ToString ());
 		if(!inPursuit){
 			StartCoroutine(Pause (1));
+		}
+		scaleLightForPlayer ();
+	}
+	private void scaleLightForPlayer()
+	{
+		if (!target.GetComponent<CharacterComponentProvider> ().flashlight.LightEnabled)
+		{
+			GetComponent<CharacterComponentProvider> ().fieldOfView.LightConeAngle = 55;
+		}
+		else
+		{
+			GetComponent<CharacterComponentProvider> ().fieldOfView.LightConeAngle = 180;
 		}
 	}
 
