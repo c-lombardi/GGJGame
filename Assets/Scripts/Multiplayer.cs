@@ -113,7 +113,9 @@ public class Multiplayer : MonoBehaviour {
 		}
 	}
 	Transform AddLocalPlayer() {
-		return (Transform) Object.Instantiate (playerPrefab, playerInitialPosition, playerInitialQuat);
+		Transform player = (Transform) Object.Instantiate (playerPrefab, playerInitialPosition, playerInitialQuat);
+		GetComponent<CameraMovement>().target = player;
+		return player;
 	}
 	Transform AddLocalPursuer(Transform player) {
 		Transform pursuer = (Transform)Object.Instantiate (pursuerPrefab, playerInitialPosition, playerInitialQuat);
