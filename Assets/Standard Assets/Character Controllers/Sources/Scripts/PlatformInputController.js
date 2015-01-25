@@ -14,11 +14,30 @@ function Awake () {
 
 // Update is called once per frame
 function Update () {
+
+
+
 	// Get the input vector from keyboard or analog stick
 
 	var moveVector = new Vector3(Input.GetAxis("LeftHorizontal"), 0, Input.GetAxis("LeftVertical"));
 	var directionVector = new Vector3(Input.GetAxis("RightHorizontal"), 0, Input.GetAxis("RightVertical"));
 	
+	if (Input.GetKey(KeyCode.DownArrow)){
+		moveVector = new Vector3(0,0,-1);
+		directionVector = new Vector3(0,0,-1);
+		}
+	if (Input.GetKey(KeyCode.UpArrow)){
+		moveVector = new Vector3(0,0,1);
+		directionVector = new Vector3(0,0,1);
+		}
+	if (Input.GetKey(KeyCode.LeftArrow)){
+		moveVector = new Vector3(-1,0,0);
+		directionVector = new Vector3(-1,0,0);
+		}
+	if (Input.GetKey(KeyCode.RightArrow)){
+		moveVector = new Vector3(1,0,0);
+		directionVector = new Vector3(1,0,0);
+		}
 
 	if (moveVector.magnitude > JOYSTICK_STICKINESS) {
 		
