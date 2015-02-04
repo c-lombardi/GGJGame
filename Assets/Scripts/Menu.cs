@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Multiplayer : MonoBehaviour {
+public class Menu : MonoBehaviour {
 	public Transform playerPrefab;
 	public Transform pursuerPrefab;
 
