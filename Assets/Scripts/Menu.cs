@@ -23,7 +23,7 @@ public class Menu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		MasterServer.ipAddress = "192.168.43.213";
+		MasterServer.ipAddress = "192.168.1.7";
 	}
 	
 	// Update is called once per frame
@@ -36,9 +36,9 @@ public class Menu : MonoBehaviour {
 		int buttonNum = 0;
 		if (!isSinglePlayer && !Network.isClient && !Network.isServer) {
 			if (hostList == null) {
-				if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Start Single-player")) {
-					StartSinglePlayer();
-				}
+				//if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Start Single-player")) {
+					//StartSinglePlayer();
+				//}
 				if (GUI.Button(new Rect(buttonHStart, buttonY(buttonNum++), buttonWidth, buttonHeight), "Multiplayer")) {
 					FindServer();
 				}
@@ -104,12 +104,40 @@ public class Menu : MonoBehaviour {
 		Debug.Log("Could not connect to master server: " + info);
 	}
 
+
 	private Vector3 playerInitialPosition() {
-		Vector3 v = transform.position;
-		v.y = 0;
-		v.x = 12.3776f;
-		v.z = -5.897f;
-		return v;
+		int random = Mathf.FloorToInt(Random.Range(0.0F, 4.0F));
+
+		if (random == 0) {
+			Vector3 v = transform.position;
+			v.y = 0;
+			v.x = 11.72f;
+			v.z = -6.1f;
+			return v;
+		}
+		else if (random == 1) {
+			Vector3 v = transform.position;
+			v.y = 0;
+			v.x = -10.87327f;
+			v.z = -6.419117f;
+			return v;
+		}
+		else if (random == 2) {
+			Vector3 v = transform.position;
+			v.y = 0;
+			v.x = -11.47327f;
+			v.z = 14.91088f;
+			return v;
+		}
+		else {
+			Vector3 v = transform.position;
+			v.y = 0;
+			v.x = 1.61f;
+			v.z = 7.97f;
+			return v;
+		}
+
+
 	}
 
 	private Vector3 pursuerInitalPosition() {

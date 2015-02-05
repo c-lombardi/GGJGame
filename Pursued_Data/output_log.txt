@@ -14,16 +14,36 @@ Platform assembly: C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data
 Loading C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
 Loading C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
 Platform assembly: C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.038 seconds
+- Completed reload, in  0.039 seconds
 desktop: 1920x1080 59Hz; virtual: 3600x1167 at -1680,0
 <RI> Initializing input.
-<RI.Hid> Failed to create device file:
- 2 The system cannot find the file specified.
-
- 
-(Filename:  Line: 54)
-
 <RI> Input initialized.
 Platform assembly: C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 2.234644 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2370.
+Total: 0.622879 ms (FindLiveObjects: 0.055295 ms CreateObjectMapping: 0.011117 ms MarkObjects: 0.129023 ms  DeleteObjects: 0.009069 ms)
+
+Platform assembly: C:\Users\Light1c3\Documents\Repositories\GGJgame\Pursued_Data\Managed\Boo.Lang.dll (this message is harmless)
+Couldn't send buffered RPCs to client
+ 
+(Filename:  Line: 1162)
+
+Couldn't send buffered RPCs to client
+ 
+(Filename:  Line: 1162)
+
+Couldn't send buffered RPCs to client
+ 
+(Filename:  Line: 1162)
+
+Couldn't send buffered RPCs to client
+ 
+(Filename:  Line: 1162)
+
